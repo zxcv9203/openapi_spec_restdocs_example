@@ -10,6 +10,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.epages.restdocs.apispec.SimpleType;
@@ -46,13 +47,16 @@ class MainControllerTest {
                 RestDocumentationRequestBuilders.get("/")
             )
             .andExpect(status().isOk())
-            .andDo(document("test-get",
+            .andDo(MockMvcRestDocumentationWrapper.document("test-get",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 resource(ResourceSnippetParameters.builder()
                     .description("Get 요청 성공 여부 확인")
                     .responseFields(
                         fieldWithPath("message").type(JsonFieldType.STRING).description("메세지")
+                    )
+                    .responseSchema(
+                        Schema.schema("MainResponse.Get")
                     )
                     .build())));
 
@@ -68,14 +72,22 @@ class MainControllerTest {
                     .content(mapper.writeValueAsString(request))
             )
             .andExpect(status().isCreated())
-            .andDo(document("test-post",
+            .andDo(MockMvcRestDocumentationWrapper.document("test-post",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 resource(ResourceSnippetParameters.builder()
                     .description("Post 요청 성공 여부 확인")
-                    .requestFields()
+                    .requestFields(
+                        fieldWithPath("message").type(JsonFieldType.STRING).description("요청 메시지")
+                    )
                     .responseFields(
                         fieldWithPath("id").type(JsonFieldType.NUMBER).description("생성 ID")
+                    )
+                    .requestSchema(
+                        Schema.schema("MainRequest.Post")
+                    )
+                    .responseSchema(
+                        Schema.schema("MainResponse.Post")
                     )
                     .build())));
     }
@@ -92,7 +104,7 @@ class MainControllerTest {
                     .content(mapper.writeValueAsString(requestBody))
             )
             .andExpect(status().isOk())
-            .andDo(document("test-put",
+            .andDo(MockMvcRestDocumentationWrapper.document("test-put",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 resource(ResourceSnippetParameters.builder()
@@ -105,6 +117,12 @@ class MainControllerTest {
                     )
                     .responseFields(
                         fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
+                    )
+                    .requestSchema(
+                        Schema.schema("MainRequest.Put")
+                    )
+                    .responseSchema(
+                        Schema.schema("MainResponse.Put")
                     )
                     .build())));
     }
@@ -121,7 +139,7 @@ class MainControllerTest {
                     .content(mapper.writeValueAsString(requestBody))
             )
             .andExpect(status().isOk())
-            .andDo(document("test-patch",
+            .andDo(MockMvcRestDocumentationWrapper.document("test-patch",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 resource(ResourceSnippetParameters.builder()
@@ -135,6 +153,12 @@ class MainControllerTest {
                     .responseFields(
                         fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
                     )
+                    .requestSchema(
+                        Schema.schema("MainRequest.Patch")
+                    )
+                    .responseSchema(
+                        Schema.schema("MainResponse.Patch")
+                    )
                     .build())));
     }
 
@@ -147,7 +171,7 @@ class MainControllerTest {
                 RestDocumentationRequestBuilders.delete("/{id}", request)
             )
             .andExpect(status().isNoContent())
-            .andDo(document("test-delete",
+            .andDo(MockMvcRestDocumentationWrapper.document("test-delete",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 resource(ResourceSnippetParameters.builder()

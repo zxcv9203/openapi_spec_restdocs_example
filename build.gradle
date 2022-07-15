@@ -34,11 +34,11 @@ openapi3 {
 }
 
 task copyTest {
-        copy {
-            from "$buildDir/api-spec/openapi3.yaml"
-            into "src/main/resources/static/swagger-ui/."
-        }
     dependsOn("openapi3")
+    copy {
+            from "$buildDir/api-spec/openapi3.yaml"
+            into "src/main/resources/static/docs/."
+        }
 }
 
 tasks.named('test') {

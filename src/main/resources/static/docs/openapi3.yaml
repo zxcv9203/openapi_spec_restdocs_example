@@ -18,7 +18,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/965530409'
+                $ref: '#/components/schemas/MainResponse.Get'
               examples:
                 test-get:
                   value: |-
@@ -33,7 +33,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: '#/components/schemas/486549215'
+              $ref: '#/components/schemas/MainRequest.Post'
             examples:
               test-post:
                 value: |-
@@ -46,7 +46,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/-813063542'
+                $ref: '#/components/schemas/MainResponse.Post'
               examples:
                 test-post:
                   value: |-
@@ -71,7 +71,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: '#/components/schemas/id-1893941408'
+              $ref: '#/components/schemas/MainRequest.Put'
             examples:
               test-put:
                 value: |-
@@ -84,7 +84,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/id-502749739'
+                $ref: '#/components/schemas/MainResponse.Put'
               examples:
                 test-put:
                   value: |-
@@ -124,7 +124,7 @@ paths:
         content:
           application/json;charset=UTF-8:
             schema:
-              $ref: '#/components/schemas/id-1893941408'
+              $ref: '#/components/schemas/MainRequest.Patch'
             examples:
               test-patch:
                 value: |-
@@ -137,7 +137,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/id-502749739'
+                $ref: '#/components/schemas/MainResponse.Patch'
               examples:
                 test-patch:
                   value: |-
@@ -146,29 +146,52 @@ paths:
                     }
 components:
   schemas:
-    "-813063542":
+    MainResponse.Post:
+      title: MainResponse.Post
       type: object
       properties:
         id:
           type: number
           description: 생성 ID
-    "965530409":
-      type: object
-      properties:
-        message:
-          type: string
-          description: 메세지
-    id-1893941408:
-      type: object
-      properties:
-        message:
-          type: string
-          description: 요청 메세지
-    id-502749739:
+    MainResponse.Put:
+      title: MainResponse.Put
       type: object
       properties:
         message:
           type: string
           description: 응답 메세지
-    "486549215":
+    MainResponse.Patch:
+      title: MainResponse.Patch
       type: object
+      properties:
+        message:
+          type: string
+          description: 응답 메세지
+    MainRequest.Post:
+      title: MainRequest.Post
+      type: object
+      properties:
+        message:
+          type: string
+          description: 요청 메시지
+    MainRequest.Patch:
+      title: MainRequest.Patch
+      type: object
+      properties:
+        message:
+          type: string
+          description: 요청 메세지
+    MainRequest.Put:
+      title: MainRequest.Put
+      type: object
+      properties:
+        message:
+          type: string
+          description: 요청 메세지
+    MainResponse.Get:
+      title: MainResponse.Get
+      type: object
+      properties:
+        message:
+          type: string
+          description: 메세지
