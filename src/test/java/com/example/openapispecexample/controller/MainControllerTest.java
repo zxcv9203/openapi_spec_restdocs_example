@@ -1,19 +1,18 @@
 package com.example.openapispecexample.controller;
 
-import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
-import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
-import com.epages.restdocs.apispec.SimpleType;
 import com.example.openapispecexample.dto.MainRequest;
 import com.example.openapispecexample.dto.MainRequest.Patch;
 import com.example.openapispecexample.dto.MainRequest.Post;
@@ -44,21 +43,22 @@ class MainControllerTest {
     @DisplayName("Get 테스트")
     void getTest() throws Exception {
         mockMvc.perform(
-                RestDocumentationRequestBuilders.get("/")
+                RestDocumentationRequestBuilders.get("/user")
             )
             .andExpect(status().isOk())
             .andDo(MockMvcRestDocumentationWrapper.document("test-get",
+                ResourceSnippetParameters.builder()
+                    .tag("테스트")
+                    .summary("Get 테스트")
+                    .description("Get 테스트")
+                    .responseSchema(Schema.schema("MainResponse.Get"))
+                    ,
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
-                resource(ResourceSnippetParameters.builder()
-                    .description("Get 요청 성공 여부 확인")
-                    .responseFields(
-                        fieldWithPath("message").type(JsonFieldType.STRING).description("메세지")
-                    )
-                    .responseSchema(
-                        Schema.schema("MainResponse.Get")
-                    )
-                    .build())));
+                responseFields(
+                    fieldWithPath("message").type(JsonFieldType.STRING).description("메세지")
+                )
+            ));
 
     }
 
@@ -67,29 +67,27 @@ class MainControllerTest {
     void postTest() throws Exception {
         MainRequest.Post request = new Post("post request");
         mockMvc.perform(
-                RestDocumentationRequestBuilders.post("/")
+                RestDocumentationRequestBuilders.post("/user")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(mapper.writeValueAsString(request))
             )
             .andExpect(status().isCreated())
             .andDo(MockMvcRestDocumentationWrapper.document("test-post",
+                ResourceSnippetParameters.builder()
+                    .tag("테스트")
+                    .summary("Post 테스트")
+                    .description("Post 테스트")
+                    .requestSchema(Schema.schema("MainRequest.Post"))
+                    .responseSchema(Schema.schema("MainResponse.Post"))
+                ,
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
-                resource(ResourceSnippetParameters.builder()
-                    .description("Post 요청 성공 여부 확인")
-                    .requestFields(
-                        fieldWithPath("message").type(JsonFieldType.STRING).description("요청 메시지")
-                    )
-                    .responseFields(
-                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("생성 ID")
-                    )
-                    .requestSchema(
-                        Schema.schema("MainRequest.Post")
-                    )
-                    .responseSchema(
-                        Schema.schema("MainResponse.Post")
-                    )
-                    .build())));
+                requestFields(
+                    fieldWithPath("message").type(JsonFieldType.STRING).description("요청 메시지")
+                ),
+                responseFields(
+                    fieldWithPath("id").type(JsonFieldType.NUMBER).description("생성 ID")
+                )));
     }
 
     @Test
@@ -99,32 +97,31 @@ class MainControllerTest {
         MainRequest.Put requestBody = new Put("put request");
 
         mockMvc.perform(
-                RestDocumentationRequestBuilders.put("/{id}", requestId)
+                RestDocumentationRequestBuilders.put("/user/{id}", requestId)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(mapper.writeValueAsString(requestBody))
             )
             .andExpect(status().isOk())
             .andDo(MockMvcRestDocumentationWrapper.document("test-put",
+                ResourceSnippetParameters.builder()
+                    .tag("테스트")
+                    .summary("Put 테스트")
+                    .description("Put 테스트")
+                    .requestSchema(Schema.schema("MainRequest.Put"))
+                    .responseSchema(Schema.schema("MainResponse.Put"))
+                ,
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
-                resource(ResourceSnippetParameters.builder()
-                    .description("Put 요청 성공 여부 확인")
-                    .pathParameters(
-                        parameterWithName("id").type(SimpleType.NUMBER).description("수정 ID")
-                    )
-                    .requestFields(
-                        fieldWithPath("message").type(JsonFieldType.STRING).description("요청 메세지")
-                    )
-                    .responseFields(
-                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
-                    )
-                    .requestSchema(
-                        Schema.schema("MainRequest.Put")
-                    )
-                    .responseSchema(
-                        Schema.schema("MainResponse.Put")
-                    )
-                    .build())));
+                pathParameters(
+                    parameterWithName("id").description("수정 ID")
+                ),
+                requestFields(
+                    fieldWithPath("message").type(JsonFieldType.STRING).description("요청 메세지")
+                ),
+                responseFields(
+                    fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
+                )
+            ));
     }
 
     @Test
@@ -134,32 +131,31 @@ class MainControllerTest {
         MainRequest.Patch requestBody = new Patch("patch request");
 
         mockMvc.perform(
-                RestDocumentationRequestBuilders.patch("/{id}", requestId)
+                RestDocumentationRequestBuilders.patch("/user/{id}", requestId)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(mapper.writeValueAsString(requestBody))
             )
             .andExpect(status().isOk())
             .andDo(MockMvcRestDocumentationWrapper.document("test-patch",
+                ResourceSnippetParameters.builder()
+                    .tag("테스트")
+                    .summary("Patch 테스트")
+                    .description("Patch 테스트")
+                    .requestSchema(Schema.schema("MainRequest.Patch"))
+                    .responseSchema(Schema.schema("MainResponse.Post"))
+                ,
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
-                resource(ResourceSnippetParameters.builder()
-                    .description("Patch 요청 성공 여부 확인")
-                    .pathParameters(
-                        parameterWithName("id").type(SimpleType.NUMBER).description("수정 ID")
-                    )
-                    .requestFields(
-                        fieldWithPath("message").type(JsonFieldType.STRING).description("요청 메세지")
-                    )
-                    .responseFields(
-                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
-                    )
-                    .requestSchema(
-                        Schema.schema("MainRequest.Patch")
-                    )
-                    .responseSchema(
-                        Schema.schema("MainResponse.Patch")
-                    )
-                    .build())));
+                pathParameters(
+                    parameterWithName("id").description("수정 ID")
+                ),
+                requestFields(
+                    fieldWithPath("message").type(JsonFieldType.STRING).description("요청 메세지")
+                ),
+                responseFields(
+                    fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
+                )
+            ));
     }
 
     @Test
@@ -168,17 +164,20 @@ class MainControllerTest {
         Long request = 1L;
 
         mockMvc.perform(
-                RestDocumentationRequestBuilders.delete("/{id}", request)
+                RestDocumentationRequestBuilders.delete("/user/{id}", request)
             )
             .andExpect(status().isNoContent())
             .andDo(MockMvcRestDocumentationWrapper.document("test-delete",
+                ResourceSnippetParameters.builder()
+                    .tag("테스트")
+                    .summary("Delete 테스트")
+                    .description("Delete 테스트")
+                ,
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
-                resource(ResourceSnippetParameters.builder()
-                    .description("Delete 요청 성공 여부 확인")
-                    .pathParameters(
-                        parameterWithName("id").type(SimpleType.NUMBER).description("삭제 ID")
-                    )
-                    .build())));
+                pathParameters(
+                    parameterWithName("id").description("삭제 ID")
+                )
+            ));
     }
 }

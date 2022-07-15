@@ -7,10 +7,12 @@ servers:
 - url: http://localhost:8080
 tags: []
 paths:
-  /:
+  /user:
     get:
-      summary: Get 요청 성공 여부 확인
-      description: Get 요청 성공 여부 확인
+      tags:
+      - 테스트
+      summary: Get 테스트
+      description: Get 테스트
       operationId: test-get
       responses:
         "200":
@@ -26,8 +28,10 @@ paths:
                       "message" : "get test success"
                     }
     post:
-      summary: Post 요청 성공 여부 확인
-      description: Post 요청 성공 여부 확인
+      tags:
+      - 테스트
+      summary: Post 테스트
+      description: Post 테스트
       operationId: test-post
       requestBody:
         content:
@@ -53,12 +57,12 @@ paths:
                     {
                       "id" : 1
                     }
-  /{id}:
+  /user/{id}:
     put:
       tags:
-      - "{id}"
-      summary: Put 요청 성공 여부 확인
-      description: Put 요청 성공 여부 확인
+      - 테스트
+      summary: Put 테스트
+      description: Put 테스트
       operationId: test-put
       parameters:
       - name: id
@@ -66,7 +70,7 @@ paths:
         description: 수정 ID
         required: true
         schema:
-          type: number
+          type: string
       requestBody:
         content:
           application/json;charset=UTF-8:
@@ -93,9 +97,9 @@ paths:
                     }
     delete:
       tags:
-      - "{id}"
-      summary: Delete 요청 성공 여부 확인
-      description: Delete 요청 성공 여부 확인
+      - 테스트
+      summary: Delete 테스트
+      description: Delete 테스트
       operationId: test-delete
       parameters:
       - name: id
@@ -103,15 +107,15 @@ paths:
         description: 삭제 ID
         required: true
         schema:
-          type: number
+          type: string
       responses:
         "204":
           description: "204"
     patch:
       tags:
-      - "{id}"
-      summary: Patch 요청 성공 여부 확인
-      description: Patch 요청 성공 여부 확인
+      - 테스트
+      summary: Patch 테스트
+      description: Patch 테스트
       operationId: test-patch
       parameters:
       - name: id
@@ -119,7 +123,7 @@ paths:
         description: 수정 ID
         required: true
         schema:
-          type: number
+          type: string
       requestBody:
         content:
           application/json;charset=UTF-8:
@@ -137,7 +141,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MainResponse.Patch'
+                $ref: '#/components/schemas/MainResponse.Post'
               examples:
                 test-patch:
                   value: |-
@@ -150,20 +154,6 @@ components:
       title: MainResponse.Post
       type: object
       properties:
-        id:
-          type: number
-          description: 생성 ID
-    MainResponse.Put:
-      title: MainResponse.Put
-      type: object
-      properties:
-        message:
-          type: string
-          description: 응답 메세지
-    MainResponse.Patch:
-      title: MainResponse.Patch
-      type: object
-      properties:
         message:
           type: string
           description: 응답 메세지
@@ -174,6 +164,13 @@ components:
         message:
           type: string
           description: 요청 메시지
+    MainResponse.Put:
+      title: MainResponse.Put
+      type: object
+      properties:
+        message:
+          type: string
+          description: 응답 메세지
     MainRequest.Patch:
       title: MainRequest.Patch
       type: object
