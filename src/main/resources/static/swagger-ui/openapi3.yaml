@@ -1,0 +1,174 @@
+openapi: 3.0.1
+info:
+  title: RestDocs to Swagger 변환 테스트
+  description: Restdocs로 API 문서 작성 후 이를 Swagger로 변환하는 페이지
+  version: 0.0.1-SNAPSHOT
+servers:
+- url: http://localhost:8080
+tags: []
+paths:
+  /:
+    get:
+      summary: Get 요청 성공 여부 확인
+      description: Get 요청 성공 여부 확인
+      operationId: test-get
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/965530409'
+              examples:
+                test-get:
+                  value: |-
+                    {
+                      "message" : "get test success"
+                    }
+    post:
+      summary: Post 요청 성공 여부 확인
+      description: Post 요청 성공 여부 확인
+      operationId: test-post
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/486549215'
+            examples:
+              test-post:
+                value: |-
+                  {
+                    "message" : "post request"
+                  }
+      responses:
+        "201":
+          description: "201"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/-813063542'
+              examples:
+                test-post:
+                  value: |-
+                    {
+                      "id" : 1
+                    }
+  /{id}:
+    put:
+      tags:
+      - "{id}"
+      summary: Put 요청 성공 여부 확인
+      description: Put 요청 성공 여부 확인
+      operationId: test-put
+      parameters:
+      - name: id
+        in: path
+        description: 수정 ID
+        required: true
+        schema:
+          type: number
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/id-1893941408'
+            examples:
+              test-put:
+                value: |-
+                  {
+                    "message" : "put request"
+                  }
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/id-502749739'
+              examples:
+                test-put:
+                  value: |-
+                    {
+                      "message" : "put test success"
+                    }
+    delete:
+      tags:
+      - "{id}"
+      summary: Delete 요청 성공 여부 확인
+      description: Delete 요청 성공 여부 확인
+      operationId: test-delete
+      parameters:
+      - name: id
+        in: path
+        description: 삭제 ID
+        required: true
+        schema:
+          type: number
+      responses:
+        "204":
+          description: "204"
+    patch:
+      tags:
+      - "{id}"
+      summary: Patch 요청 성공 여부 확인
+      description: Patch 요청 성공 여부 확인
+      operationId: test-patch
+      parameters:
+      - name: id
+        in: path
+        description: 수정 ID
+        required: true
+        schema:
+          type: number
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/id-1893941408'
+            examples:
+              test-patch:
+                value: |-
+                  {
+                    "message" : "patch request"
+                  }
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/id-502749739'
+              examples:
+                test-patch:
+                  value: |-
+                    {
+                      "message" : "patch test success"
+                    }
+components:
+  schemas:
+    "-813063542":
+      type: object
+      properties:
+        id:
+          type: number
+          description: 생성 ID
+    "965530409":
+      type: object
+      properties:
+        message:
+          type: string
+          description: 메세지
+    id-1893941408:
+      type: object
+      properties:
+        message:
+          type: string
+          description: 요청 메세지
+    id-502749739:
+      type: object
+      properties:
+        message:
+          type: string
+          description: 응답 메세지
+    "486549215":
+      type: object
